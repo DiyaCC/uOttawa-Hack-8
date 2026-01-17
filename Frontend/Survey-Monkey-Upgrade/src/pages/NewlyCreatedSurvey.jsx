@@ -99,7 +99,7 @@ function NewlyCreatedSurvey() {
   };
 
   if (error) return <div className="">{error}</div>;
-  
+
   // Don't render until we have survey data
   if (!q) return <div>Loading...</div>;
 
@@ -196,3 +196,4 @@ function NewlyCreatedSurvey() {
 }
 
 export default NewlyCreatedSurvey;
+
