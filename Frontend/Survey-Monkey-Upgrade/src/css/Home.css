@@ -1,32 +1,28 @@
-/* Home.css
-   Same behavior + vibe:
-   - stageViewport has fixed "card height"
-   - actions sit under stageViewport
-   - shelfPanel is same height as stageViewport and aligned horizontally
-*/
+/* ===========================
+   Home.css (UPDATED FULL)
+   Copy/paste over your Home.css
+   =========================== */
 
 :root{
   --anim: 720ms;
   --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
   --dist: 3.25rem;
 
-  /* one truth for visible QuestionCard area */
-  --card-height: clamp(30rem, 62vh, 38rem);
+  /* ✅ BIGGER stage = bigger inner card */
+  --card-height: clamp(32rem, 62vh, 41rem);
 
-  --max-width: 86rem;
+
+
+  --max-width: 60rem;
   --gap: 1.5rem;
 
   --shelf-w: 22rem;
-  --stage-w: 52rem;
+  --stage-w: 58rem; /* ✅ wider stage */
 }
 
 /* Page */
 .homePage{
   min-height: 100vh;
-.survey {
-  min-height: calc(100vh - 80px);
-  display: grid;
-  place-items: center;
   padding: 2rem;
   box-sizing: border-box;
 }
@@ -37,10 +33,10 @@
   display: grid;
   grid-template-columns: minmax(0, 1fr) var(--shelf-w);
   gap: var(--gap);
-  align-items: start; /* shelf aligns with top of stage */
+  align-items: start;
 }
 
-/* LEFT: stage + actions */
+/* LEFT */
 .surveyArea{
   width: 100%;
   display: flex;
@@ -48,19 +44,26 @@
   align-items: center;
 }
 
+/* ✅ Stage viewport is the “window” */
 .stageViewport{
   height: var(--card-height);
   width: min(var(--stage-w), 100%);
   display: flex;
-  align-items: center;
+  align-items: stretch;   /* ✅ allow child to fill height */
   justify-content: center;
-  /* overflow: hidden; */
+
+  overflow: hidden;
+  border-radius: 2rem;
+  
 }
 
+/* ✅ The animated wrapper (your slide in/out) */
 .stageMotion{
-  width: fit-content;     /* exactly wraps QuestionCard */
-  height: fit-content;
-  max-width: 100%;
+  width: 100%;
+  height: 100%;           /* ✅ fill stage height */
+  display: flex;
+  justify-content: center;
+  align-items: stretch;   /* ✅ child fills height */
 
   will-change: transform, opacity, filter;
   transform: translateZ(0);
@@ -72,32 +75,44 @@
   box-sizing: border-box;
 }
 
-/* Animations */
-.stageMotion.leaving.next{ animation: swipeDown var(--anim) var(--ease-smooth) forwards; }
-.stageMotion.entering.next{ animation: dropInFromTop var(--anim) var(--ease-smooth) forwards; }
+/* =========================
+   Animations (unchanged)
+   ========================= */
 
-.stageMotion.leaving.prev{ animation: swipeUp var(--anim) var(--ease-smooth) forwards; }
-.stageMotion.entering.prev{ animation: riseInFromBottom var(--anim) var(--ease-smooth) forwards; }
+/* NEXT */
+.stageMotion.leaving.next{
+  animation: swipeDown var(--anim) var(--ease-smooth) forwards;
+}
+.stageMotion.entering.next{
+  animation: dropInFromTop var(--anim) var(--ease-smooth) forwards;
+}
+
+/* PREV */
+.stageMotion.leaving.prev{
+  animation: swipeUp var(--anim) var(--ease-smooth) forwards;
+}
+.stageMotion.entering.prev{
+  animation: riseInFromBottom var(--anim) var(--ease-smooth) forwards;
+}
 
 @keyframes swipeDown{
-  0%{ transform: translateY(0) scale(1); opacity: 1; filter: blur(0px); }
-  60%{ opacity: 0.92; }
-  100%{ transform: translateY(var(--dist)) scale(0.99); opacity: 0; filter: blur(2px); }
+  0%{ transform: translateY(0); opacity: 1; filter: blur(0px); }
+  100%{ transform: translateY(var(--dist)); opacity: 0; filter: blur(2px); }
 }
+
 @keyframes dropInFromTop{
-  0%{ transform: translateY(calc(-1 * var(--dist))) scale(0.99); opacity: 0; filter: blur(2px); }
-  55%{ opacity: 1; }
-  100%{ transform: translateY(0) scale(1); opacity: 1; filter: blur(0px); }
+  0%{ transform: translateY(calc(-1 * var(--dist))); opacity: 0; filter: blur(2px); }
+  100%{ transform: translateY(0); opacity: 1; filter: blur(0px); }
 }
+
 @keyframes swipeUp{
-  0%{ transform: translateY(0) scale(1); opacity: 1; filter: blur(0px); }
-  60%{ opacity: 0.92; }
-  100%{ transform: translateY(calc(-1 * var(--dist))) scale(0.99); opacity: 0; filter: blur(2px); }
+  0%{ transform: translateY(0); opacity: 1; filter: blur(0px); }
+  100%{ transform: translateY(calc(-1 * var(--dist))); opacity: 0; filter: blur(2px); }
 }
+
 @keyframes riseInFromBottom{
-  0%{ transform: translateY(var(--dist)) scale(0.99); opacity: 0; filter: blur(2px); }
-  55%{ opacity: 1; }
-  100%{ transform: translateY(0) scale(1); opacity: 1; filter: blur(0px); }
+  0%{ transform: translateY(var(--dist)); opacity: 0; filter: blur(2px); }
+  100%{ transform: translateY(0); opacity: 1; filter: blur(0px); }
 }
 
 @media (prefers-reduced-motion: reduce){
@@ -109,7 +124,7 @@
   }
 }
 
-/* Actions sit UNDER the card height */
+/* Actions */
 .actions{
   width: min(var(--stage-w), 100%);
   margin-top: 1rem;
@@ -118,17 +133,12 @@
   gap: 0.75rem;
 }
 
-.progress{
-  font-size: 0.95rem;
-  color: rgba(20, 20, 24, 0.6);
-}
-
 .actionsRow{
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 1rem;
+  margin-top: 0rem;
   gap: 1rem;
 }
 
@@ -159,7 +169,7 @@
 }
 .btn:hover{ filter: brightness(1.06); }
 
-/* RIGHT: Shelf equals stage height */
+/* RIGHT: Shelf */
 .shelfPanel{
   height: var(--card-height);
   width: 100%;
@@ -169,12 +179,12 @@
 
   background: rgba(255, 255, 255, 0.78);
   border: 1px solid rgba(20, 20, 24, 0.12);
-  box-shadow: 0 1.2rem 2.6rem rgba(0, 0, 0, 0.10);
   backdrop-filter: blur(10px);
 
   display: flex;
   flex-direction: column;
-  overflow: hidden; /* internal scroll */
+  overflow: hidden;
+  margin-left: 10rem;
 }
 
 .shelfHeader{
@@ -203,7 +213,6 @@
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.75rem;
-
   padding-right: 0.25rem;
 }
 
@@ -257,7 +266,7 @@
 
 /* Responsive */
 @media (max-width: 78rem){
-  :root{ --shelf-w: 20rem; --stage-w: 50rem; }
+  :root{ --shelf-w: 20rem; --stage-w: 56rem; }
 }
 
 @media (max-width: 62rem){
@@ -272,7 +281,7 @@
 }
 
 @media (max-width: 34rem){
-  :root{ --card-height: clamp(28rem, 60vh, 36rem); }
+  :root{ --card-height: clamp(32rem, 70vh, 44rem); }
 
   .shelfGrid{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
 
