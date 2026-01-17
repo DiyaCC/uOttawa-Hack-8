@@ -4,6 +4,7 @@ import PrototypeServey from "./pages/PrototypeServey";
 import SurveyCreation from "./pages/SurveyCreation";
 import Home from "./pages/Home";
 import Nav from "./components/Nav";
+import NewlyCreatedSurvey from "./pages/NewlyCreatedSurvey";
 
 function App() {
   return (
@@ -14,6 +15,8 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/prototypeSurvey" element={<PrototypeServey />} />
           <Route path="/createSurvey" element={<SurveyCreation />} />
+          <Route path="/newlyCreatedSurvey" element={<NewlyCreatedSurvey />} />
+
         </Routes>
       </main>
     </>
