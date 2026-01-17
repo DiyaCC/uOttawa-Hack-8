@@ -1,7 +1,8 @@
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
+import PrototypeServey from "./pages/PrototypeServey";
+import SurveyCreation from "./pages/SurveyCreation";
 import Home from "./pages/Home";
-import Survey from "./pages/SurveyCreation";
 import Nav from "./components/Nav";
 
 function App() {
@@ -11,7 +12,8 @@ function App() {
       <main className="main-content" style={{ paddingTop: "80px" }}>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/create-survey" element={<Survey />} />
+          <Route path="/prototypeSurvey" element={<PrototypeServey />} />
+          <Route path="/createSurvey" element={<SurveyCreation />} />
         </Routes>
       </main>
     </>

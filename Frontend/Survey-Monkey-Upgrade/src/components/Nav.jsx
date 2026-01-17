@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "react-router-dom";
 
 export default function Navbar() {
@@ -105,7 +104,7 @@ export default function Navbar() {
               </Link>
 
               {/* Survey */}
-              <Link to="/survey" className="nav-button">
+              <Link to="/prototypeSurvey" className="nav-button">
                 <span className="button-content">
                   <svg
                     className="button-icon"
@@ -125,7 +124,7 @@ export default function Navbar() {
               </Link>
 
               {/* Create Survey */}
-              <Link to="/create-survey" className="nav-button">
+              <Link to="/createSurvey" className="nav-button">
                 <span className="button-content">
                   <svg
                     className="button-icon"
