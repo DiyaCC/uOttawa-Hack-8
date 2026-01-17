@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 
 export default function CreateSurvey() {
   const [questions, setQuestions] = useState([]);
@@ -8,6 +9,7 @@ export default function CreateSurvey() {
   const [generating, setGenerating] = useState({});
   const [generatedCounts, setGeneratedCounts] = useState({});
   const pollIntervalsRef = useRef({});
+  const [surveyId, setSurveyId] = useState("");
 
   const categories = [
     { value: "tree", label: "Tree" },
@@ -238,14 +240,15 @@ export default function CreateSurvey() {
       id: index + 1,
       text: q.text,
       images: getImagePaths(q.category, q.isGenerated),
-    }));
+      category: q.category
+    })); 
 
     localStorage.setItem(
       `survey_${surveyId}`,
       JSON.stringify(formattedQuestions),
     );
-
-    const link = `${window.location.origin}/survey?id=${surveyId}`;
+    setSurveyId(surveyId);     
+    const link = `${window.location.origin}/newlyCreatedSurvey?id=${surveyId}`;
     setSurveyLink(link);
   };
 
@@ -837,13 +840,20 @@ export default function CreateSurvey() {
               <button className="btn primary" onClick={copyLink}>
                 Copy Link
               </button>
-              <a
+              {/* <a
                 href={surveyLink}
                 className="btn secondary"
                 style={{ textDecoration: "none" }}
               >
                 Open Survey
-              </a>
+              </a> */}
+              <Link
+                to={`/newlyCreatedSurvey?id=${surveyId}`}
+                className="btn secondary"
+                style={{ textDecoration: "none" }}
+              >
+                Open Survey
+              </Link>
             </div>
           </div>
         )}
