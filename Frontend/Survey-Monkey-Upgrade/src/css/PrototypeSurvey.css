@@ -27,8 +27,7 @@
   min-height: 100vh;
   height: 100vh;
   margin: 0;
-  padding: 2rem;
-  padding-top: 10rem; /* ✅ Back to 6rem since main padding is now 0 */
+  padding: 6rem;
   box-sizing: border-box;
   overflow: hidden;
   background: linear-gradient(
@@ -301,6 +300,11 @@
   display: grid;
   place-items: center;
   color: rgba(20, 20, 24, 0.45);
+}
+.survey-title-header {
+  display: flex;
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
 }
 /* Responsive */
 @media (max-width: 78rem) {

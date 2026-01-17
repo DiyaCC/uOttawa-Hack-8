@@ -174,6 +174,9 @@ export default function Home() {
 
   return (
     <div className="homePage">
+      <div className="survey-title-header">
+        <h1 className="survey-title">Prototype Survey</h1>
+      </div>
       <div className="homeLayout">
         {/* LEFT: Question stage + buttons (buttons are NOT part of stage height) */}
         <section className="surveyArea">

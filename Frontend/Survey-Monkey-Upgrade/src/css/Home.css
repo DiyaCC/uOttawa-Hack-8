@@ -1,9 +1,11 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap");
+
 /* General container */
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 2rem 2rem;
-  font-family: 'Poppins';
+  padding: 6rem 2rem;
+  font-family: "Poppins";
   color: #333;
   line-height: 1.6;
 }
@@ -44,7 +46,7 @@ ul li {
   background-color: #fef3c7; /* yellow-50 */
   padding: 1.5rem;
   border-radius: 1rem;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 ul li h3 {
@@ -143,15 +145,15 @@ section.text-center a:hover {
 }
 
 .text-h2 {
-    font-size: 2rem;
-    animation: slideUpFade 1s ease-out forwards;
-    margin-bottom: 0;
+  font-size: 2rem;
+  animation: slideUpFade 1s ease-out forwards;
+  margin-bottom: 0;
 }
 
 .text-h3 {
-    font-size: 1.5rem;
-    animation: slideUpFade 1s ease-out forwards;
-    margin-bottom: 0;
+  font-size: 1.5rem;
+  animation: slideUpFade 1s ease-out forwards;
+  margin-bottom: 0;
 }
 
 /* Keyframes for "coming up" effect */
@@ -165,3 +167,4 @@ section.text-center a:hover {
     transform: translateY(0);
   }
 }
+

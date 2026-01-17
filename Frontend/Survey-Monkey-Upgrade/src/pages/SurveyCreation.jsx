@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 
 export default function CreateSurvey() {
+  const [surveyTitle, setSurveyTitle] = useState("");
   const [questions, setQuestions] = useState([]);
   const [currentQuestion, setCurrentQuestion] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("tree");
@@ -240,14 +241,16 @@ export default function CreateSurvey() {
       id: index + 1,
       text: q.text,
       images: getImagePaths(q.category, q.isGenerated),
-      category: q.category
-    })); 
+      category: q.category,
+    }));
 
-    localStorage.setItem(
-      `survey_${surveyId}`,
-      JSON.stringify(formattedQuestions),
-    );
-    setSurveyId(surveyId);     
+    const surveyData = {
+      title: surveyTitle || "Untitled Survey",
+      questions: formattedQuestions,
+    };
+
+    localStorage.setItem(`survey_${surveyId}`, JSON.stringify(surveyData));
+    setSurveyId(surveyId);
     const link = `${window.location.origin}/newlyCreatedSurvey?id=${surveyId}`;
     setSurveyLink(link);
   };
@@ -282,6 +285,16 @@ export default function CreateSurvey() {
         .page-subtitle {
           color: rgba(20, 20, 24, 0.6);
           font-size: 1.125rem;
+        }
+
+        .survey-title-section {
+          background: rgba(255, 255, 255, 0.9);
+          backdrop-filter: blur(12px);
+          border: 1px solid rgba(229, 231, 235, 0.6);
+          border-radius: 12px;
+          padding: 2rem;
+          margin-bottom: 2rem;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
         }
         
         .add-question-section {
@@ -662,6 +675,18 @@ export default function CreateSurvey() {
           <p className="page-subtitle">
             Build your custom survey with themed questions
           </p>
+        </div>
+
+        <div className="survey-title-section">
+          <h2 className="section-title">Survey Title</h2>
+          <input
+            type="text"
+            className="text-input"
+            placeholder="Enter survey title..."
+            value={surveyTitle}
+            onChange={(e) => setSurveyTitle(e.target.value)}
+            style={{ width: "100%" }}
+          />
         </div>
 
         <div className="add-question-section">

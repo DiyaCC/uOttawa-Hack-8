@@ -9,6 +9,7 @@ const ANIM_MS = 720;
 function NewlyCreatedSurvey() {
   const [searchParams] = useSearchParams();
   const surveyId = searchParams.get("id");
+  const [surveyTitle, setSurveyTitle] = useState("");
   const [surveyQuestions, setSurveyQuestions] = useState([]);
   const [error, setError] = useState("");
   const [idx, setIdx] = useState(0);
@@ -32,8 +33,20 @@ function NewlyCreatedSurvey() {
 
     try {
       const parsed = JSON.parse(raw);
-      setSurveyQuestions(parsed);
-      setSaved(Array(parsed.length).fill(null));
+
+      // Handle both old format (array) and new format (object with title and questions)
+      if (Array.isArray(parsed)) {
+        // Old format - just questions array
+        setSurveyQuestions(parsed);
+        setSurveyTitle("Untitled Survey");
+        setSaved(Array(parsed.length).fill(null));
+      } else {
+        // New format - object with title and questions
+        setSurveyTitle(parsed.title || "Untitled Survey");
+        setSurveyQuestions(parsed.questions || []);
+        setSaved(Array((parsed.questions || []).length).fill(null));
+      }
+
       setError("");
     } catch (err) {
       setError("Survey data is corrupted");
@@ -104,96 +117,108 @@ function NewlyCreatedSurvey() {
   if (!q) return <div>Loading...</div>;
 
   return (
-    <div className="homePage">
-      <div className="homeLayout">
-        <section className="surveyArea">
-          <div className="stageViewport" aria-live="polite">
-            <div className={`stageMotion ${phase} ${dir}`}>
-              <QuestionCard
-                key={q.id}
-                question={q.text}
-                imageSelectionCard={
-                  <ImageSelectionCard
-                    img1={q.images?.[0]}
-                    img2={q.images?.[1]}
-                    img3={q.images?.[2]}
-                    img4={q.images?.[3]}
-                    img5={q.images?.[4]}
-                    value={picked}
-                    onSelectionChange={setPicked}
-                  />
-                }
-              />
+    <>
+      <style>{`
+      `}</style>
+
+      <div className="homePage">
+        <div className="survey-title-header">
+          <h1 className="survey-title">{surveyTitle}</h1>
+        </div>
+
+        <div className="homeLayout">
+          <section className="surveyArea">
+            <div className="stageViewport" aria-live="polite">
+              <div className={`stageMotion ${phase} ${dir}`}>
+                <QuestionCard
+                  key={q.id}
+                  question={q.text}
+                  imageSelectionCard={
+                    <ImageSelectionCard
+                      img1={q.images?.[0]}
+                      img2={q.images?.[1]}
+                      img3={q.images?.[2]}
+                      img4={q.images?.[3]}
+                      img5={q.images?.[4]}
+                      value={picked}
+                      onSelectionChange={setPicked}
+                    />
+                  }
+                />
+              </div>
             </div>
-          </div>
 
-          <div className="actions">
-            <div className="actionsRow">
-              <button className="btn secondary" type="button" onClick={onClear}>
-                Clear Form
-              </button>
-
-              <div className="navGroup">
+            <div className="actions">
+              <div className="actionsRow">
                 <button
                   className="btn secondary"
                   type="button"
-                  onClick={onPrev}
-                  disabled={!canPrev}
+                  onClick={onClear}
                 >
-                  Previous
+                  Clear Form
                 </button>
 
-                <button
-                  className="btn primary"
-                  type="button"
-                  onClick={onNext}
-                  disabled={!canNext}
-                  title={!picked ? "Pick an image first" : ""}
-                >
-                  {idx === last ? "Save" : "OK"}
-                </button>
+                <div className="navGroup">
+                  <button
+                    className="btn secondary"
+                    type="button"
+                    onClick={onPrev}
+                    disabled={!canPrev}
+                  >
+                    Previous
+                  </button>
+
+                  <button
+                    className="btn primary"
+                    type="button"
+                    onClick={onNext}
+                    disabled={!canNext}
+                    title={!picked ? "Pick an image first" : ""}
+                  >
+                    {idx === last ? "Save" : "OK"}
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-        </section>
+          </section>
 
-        <aside className="shelfPanel" aria-label="Selections shelf">
-          <header className="shelfHeader">
-            <div className="shelfTitle">Landscape Shelf</div>
-            <div className="shelfMeta">
-              Saved: <b>{answered}</b> / {total}
-            </div>
-          </header>
+          <aside className="shelfPanel" aria-label="Selections shelf">
+            <header className="shelfHeader">
+              <div className="shelfTitle">Landscape Shelf</div>
+              <div className="shelfMeta">
+                Saved: <b>{answered}</b> / {total}
+              </div>
+            </header>
 
-          <div className="shelfGrid" role="list">
-            {saved.map((src, i) => (
-              <div
-                key={i}
-                className={`shelfItem ${src ? "has" : ""}`}
-                role="listitem"
-              >
-                <div className="shelfItemTop">
-                  <div className="shelfQ">Q{i + 1}</div>
-                  <div className={`shelfStatus ${src ? "done" : ""}`}>
-                    {src ? "Selected" : "Empty"}
+            <div className="shelfGrid" role="list">
+              {saved.map((src, i) => (
+                <div
+                  key={i}
+                  className={`shelfItem ${src ? "has" : ""}`}
+                  role="listitem"
+                >
+                  <div className="shelfItemTop">
+                    <div className="shelfQ">Q{i + 1}</div>
+                    <div className={`shelfStatus ${src ? "done" : ""}`}>
+                      {src ? "Selected" : "Empty"}
+                    </div>
+                  </div>
+
+                  <div className="shelfThumb">
+                    {src ? (
+                      <img src={src} alt={`Selection for question ${i + 1}`} />
+                    ) : (
+                      <div className="shelfThumbEmpty">—</div>
+                    )}
                   </div>
                 </div>
-
-                <div className="shelfThumb">
-                  {src ? (
-                    <img src={src} alt={`Selection for question ${i + 1}`} />
-                  ) : (
-                    <div className="shelfThumbEmpty">—</div>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-        </aside>
+              ))}
+            </div>
+          </aside>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 
 export default NewlyCreatedSurvey;
-
