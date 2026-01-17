@@ -1,0 +1,108 @@
+Universal 5-Stage Asset Progression Template
+
+Use by saying: “Make the assets for {THING}”.
+This will generate all 5 prompts below, tailored to the nature of {THING}.
+
+IMAGE 1 — Initialization (Base, Lowest State)
+
+```md
+Square image (1:1)
+
+flat 2D digital illustration
+storybook fantasy style
+soft painterly brush texture
+muted, cold, or neutral palette appropriate for the {THING}
+no photorealism
+no outlines
+
+Depict the {THING} in its lowest, weakest, most desolate, inactive, or deteriorated form — whatever makes sense for the nature of the {THING}.
+
+If the {THING} can be damaged or decayed:
+emphasize lifelessness, harshness, stillness.
+
+If the {THING} is natural (sky, plant, water, terrain):
+use bleak, cold atmospheres, heavy clouds, fog, or dryness.
+
+If the {THING} is an object, structure, or creature:
+use dull colors, weak lighting, cracks, tiredness, or reduced form.
+
+This is the baseline reference image for all later stages.
+```
+
+IMAGE 2 — Early Shift (Subtle Improvement)
+
+```md
+Use the previous image as reference.
+
+Preserve the same art style, composition, proportions, and camera angle.
+Do not change framing or layout.
+
+The {THING} begins showing small improvements appropriate to its nature:
+• slightly better lighting
+• softened harsh features
+• gentle hints of color or life
+• reduced damage or tension
+• faint warmth or clarity
+
+Mood is still subdued, but no longer fully desolate.
+```
+
+IMAGE 3 — Stabilization / Growth / Renewal
+
+```md
+Use the previous image as reference.
+
+Preserve the same art style, composition, proportions, and camera angle.
+
+The {THING} becomes clearly healthier, calmer, or more functional:
+• colors become richer but still soft
+• shapes or textures smooth out
+• lighting becomes warm and balanced
+• signs of growth, repair, or harmony appear
+
+Atmosphere feels peaceful, stable, and gently uplifting.
+```
+
+IMAGE 4 — Near-Final Positive State
+
+```md
+Use the previous image as reference.
+
+Preserve the same art style, composition, proportions, and camera angle.
+
+The {THING} is now bright, strong, healthy, or joyful.
+Enhance the elements introduced in Stage 3:
+• lively but still painterly color
+• warm natural lighting
+• harmonious shapes and textures
+
+This is the near-final stage:
+the {THING} should look almost fully alive or fully restored, just missing its final spark.
+```
+
+IMAGE 5 — Final State (Peak Vitality + One Elegant Spark)
+
+```md
+Use the previous image as reference.
+
+Preserve the same art style, composition, proportions, and camera angle.
+Do not change framing or layout.
+
+The {THING} reaches its absolute peak state:
+• richest natural colors
+• brightest warm lighting
+• fully alive, functional, joyful, or powerful
+• completely consistent with Stage 4’s style and mood
+
+Introduce exactly one elegant spark element, appropriate to the {THING}:
+• a pastel rainbow in the distance (sky/landscape)
+• a small bird or butterfly (nature scenes)
+• a glowing fruit or cluster of flowers (plants)
+• a soft sunbeam or halo highlight (any outdoor scene)
+• a gentle magical glint or shimmer (crystals, artifacts)
+• a single bright specular point (objects)
+
+The spark must be subtle, painterly, integrated, and feel like a natural culmination of Stage 4 — not a style change.
+
+This marks the final, most alive and expressive version of the {THING}.
+```

@@ -5,15 +5,105 @@ import { useEffect, useMemo, useState } from "react";
 import "../css/Home.css";
 
 const SURVEY_QUESTIONS = [
-  { id: 1, text: "How was your overall experience?", images: ["/images/Tree1.png","/images/Tree2.png","/images/Tree3.png","/images/Tree4.png","/images/Tree5.png"] },
-  { id: 2, text: "How likely are you to recommend us?", images: ["/images/Tree1.png","/images/Tree2.png","/images/Tree3.png","/images/Tree4.png","/images/Tree5.png"] },
-  { id: 3, text: "How was the speed of service?", images: ["/images/Tree1.png","/images/Tree2.png","/images/Tree3.png","/images/Tree4.png","/images/Tree5.png"] },
-  { id: 4, text: "How was your overall experience?", images: ["/images/Tree1.png","/images/Tree2.png","/images/Tree3.png","/images/Tree4.png","/images/Tree5.png"] },
-  { id: 5, text: "How likely are you to recommend us?", images: ["/images/Tree1.png","/images/Tree2.png","/images/Tree3.png","/images/Tree4.png","/images/Tree5.png"] },
-  { id: 6, text: "How was the speed of service?", images: ["/images/Tree1.png","/images/Tree2.png","/images/Tree3.png","/images/Tree4.png","/images/Tree5.png"] },
-  { id: 7, text: "How was your overall experience?", images: ["/images/Tree1.png","/images/Tree2.png","/images/Tree3.png","/images/Tree4.png","/images/Tree5.png"] },
-  { id: 8, text: "How likely are you to recommend us?", images: ["/images/Tree1.png","/images/Tree2.png","/images/Tree3.png","/images/Tree4.png","/images/Tree5.png"] },
-  { id: 9, text: "How was the speed of service?", images: ["/images/Tree1.png","/images/Tree2.png","/images/Tree3.png","/images/Tree4.png","/images/Tree5.png"] },
+  {
+    id: 1,
+    text: "How was your overall experience?",
+    images: [
+      "/images/Tree1.png",
+      "/images/Tree2.png",
+      "/images/Tree3.png",
+      "/images/Tree4.png",
+      "/images/Tree5.png",
+    ],
+  },
+  {
+    id: 2,
+    text: "How likely are you to recommend us?",
+    images: [
+      "/images/Tree1.png",
+      "/images/Tree2.png",
+      "/images/Tree3.png",
+      "/images/Tree4.png",
+      "/images/Tree5.png",
+    ],
+  },
+  {
+    id: 3,
+    text: "How was the speed of service?",
+    images: [
+      "/images/Tree1.png",
+      "/images/Tree2.png",
+      "/images/Tree3.png",
+      "/images/Tree4.png",
+      "/images/Tree5.png",
+    ],
+  },
+  {
+    id: 4,
+    text: "How was your overall experience?",
+    images: [
+      "/images/Tree1.png",
+      "/images/Tree2.png",
+      "/images/Tree3.png",
+      "/images/Tree4.png",
+      "/images/Tree5.png",
+    ],
+  },
+  {
+    id: 5,
+    text: "How likely are you to recommend us?",
+    images: [
+      "/images/Tree1.png",
+      "/images/Tree2.png",
+      "/images/Tree3.png",
+      "/images/Tree4.png",
+      "/images/Tree5.png",
+    ],
+  },
+  {
+    id: 6,
+    text: "How was the speed of service?",
+    images: [
+      "/images/Tree1.png",
+      "/images/Tree2.png",
+      "/images/Tree3.png",
+      "/images/Tree4.png",
+      "/images/Tree5.png",
+    ],
+  },
+  {
+    id: 7,
+    text: "How was your overall experience?",
+    images: [
+      "/images/Tree1.png",
+      "/images/Tree2.png",
+      "/images/Tree3.png",
+      "/images/Tree4.png",
+      "/images/Tree5.png",
+    ],
+  },
+  {
+    id: 8,
+    text: "How likely are you to recommend us?",
+    images: [
+      "/images/Tree1.png",
+      "/images/Tree2.png",
+      "/images/Tree3.png",
+      "/images/Tree4.png",
+      "/images/Tree5.png",
+    ],
+  },
+  {
+    id: 9,
+    text: "How was the speed of service?",
+    images: [
+      "/images/Tree1.png",
+      "/images/Tree2.png",
+      "/images/Tree3.png",
+      "/images/Tree4.png",
+      "/images/Tree5.png",
+    ],
+  },
 ];
 
 const ANIM_MS = 720;
@@ -109,15 +199,18 @@ export default function Home() {
           </div>
 
           <div className="actions">
-            
-
             <div className="actionsRow">
               <button className="btn secondary" type="button" onClick={onClear}>
                 Clear Form
               </button>
 
               <div className="navGroup">
-                <button className="btn secondary" type="button" onClick={onPrev} disabled={!canPrev}>
+                <button
+                  className="btn secondary"
+                  type="button"
+                  onClick={onPrev}
+                  disabled={!canPrev}
+                >
                   Previous
                 </button>
 
@@ -146,14 +239,24 @@ export default function Home() {
 
           <div className="shelfGrid" role="list">
             {saved.map((src, i) => (
-              <div key={i} className={`shelfItem ${src ? "has" : ""}`} role="listitem">
+              <div
+                key={i}
+                className={`shelfItem ${src ? "has" : ""}`}
+                role="listitem"
+              >
                 <div className="shelfItemTop">
                   <div className="shelfQ">Q{i + 1}</div>
-                  <div className={`shelfStatus ${src ? "done" : ""}`}>{src ? "Selected" : "Empty"}</div>
+                  <div className={`shelfStatus ${src ? "done" : ""}`}>
+                    {src ? "Selected" : "Empty"}
+                  </div>
                 </div>
 
                 <div className="shelfThumb">
-                  {src ? <img src={src} alt={`Selection for question ${i + 1}`} /> : <div className="shelfThumbEmpty">—</div>}
+                  {src ? (
+                    <img src={src} alt={`Selection for question ${i + 1}`} />
+                  ) : (
+                    <div className="shelfThumbEmpty">—</div>
+                  )}
                 </div>
               </div>
             ))}
