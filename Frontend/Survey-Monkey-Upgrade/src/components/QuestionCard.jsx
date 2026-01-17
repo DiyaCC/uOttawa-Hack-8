@@ -11,9 +11,6 @@ function QuestionCard({question, imageSelectionCard}) {
 
             </div>
 
-
-
-
             <div className="image-section">
                 {imageSelectionCard}
                 
