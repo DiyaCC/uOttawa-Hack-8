@@ -5,6 +5,7 @@ from pathlib import Path
 from typing import TypedDict, List
 from langgraph.graph import StateGraph, END
 from google import genai
+from google.genai import types
 from PIL import Image
 from dotenv import load_dotenv
 
@@ -131,7 +132,7 @@ def initialize_state(state: LandscapeState) -> LandscapeState:
         f"🌍 Initializing landscape generation from {len(state['survey_answers'])} survey items"
     )
 
-    output_dir = Path("landscapes") / "output"
+    output_dir = Path("assets") / "_landscapes_"
     output_dir.mkdir(parents=True, exist_ok=True)
 
     state["output_dir"] = str(output_dir)
@@ -144,40 +145,23 @@ def initialize_state(state: LandscapeState) -> LandscapeState:
     return state
 
 
-def generate_element_image(state: LandscapeState) -> LandscapeState:
-    """Generate an individual element based on its survey score"""
+def generate_element_description(state: LandscapeState) -> LandscapeState:
+    """Generate a detailed description for an individual element based on its survey score"""
     idx = state["current_index"]
     item = state["survey_answers"][idx]
 
     print(
-        f"\n🎨 Generating element {idx + 1}/{len(state['survey_answers'])}: {item['category']} (score: {item['score']})"
+        f"\n📝 Creating description {idx + 1}/{len(state['survey_answers'])}: {item['category']} (score: {item['score']})"
     )
 
     try:
         prompt = generate_element_prompt(item["category"], item["score"])
         state["element_prompts"].append(prompt)
 
-        print(f"   Prompt: {prompt[:100]}...")
-
-        response = client.models.generate_content(
-            model="gemini-2.5-flash-image",
-            contents=[prompt],
+        print(
+            f"   Description created for {item['category']} at quality level {item['score']}/5"
         )
-
-        output_path = (
-            Path(state["output_dir"])
-            / f"element_{idx}_{item['category']}_score{item['score']}.png"
-        )
-
-        for part in response.candidates[0].content.parts:
-            if part.inline_data:
-                img = part.as_image()
-                img.save(output_path)
-                state["element_images"].append(str(output_path))
-                print(f"   ✅ Saved {output_path.name}")
-                return state
-
-        raise RuntimeError("No image returned")
+        return state
 
     except Exception as e:
         state["error"] = f"Element {idx} ({item['category']}) failed: {e}"
@@ -222,32 +206,54 @@ def create_composite_prompt(state: LandscapeState) -> LandscapeState:
 
         element_descriptions.append(desc)
 
-    composite_prompt = f"""Create a cohesive landscape illustration that incorporates all of these elements:
+    composite_prompt = f"""CRITICAL: Generate a WIDE HORIZONTAL LANDSCAPE image in 16:9 aspect ratio (NOT square, NOT portrait).
+Dimensions should be approximately 1920x1080 pixels or similar wide horizontal format.
+
+Create a stunning, emotionally rich landscape illustration incorporating these elements:
 
 {chr(10).join(f"{i + 1}. {desc}" for i, desc in enumerate(element_descriptions))}
 
+LANDSCAPE FORMAT REQUIREMENTS (MUST FOLLOW):
+• WIDE HORIZONTAL format - much wider than it is tall
+• 16:9 aspect ratio (1920x1080 or 1280x720 or similar)
+• NOT square (1:1) - MUST be landscape orientation
+• This is a SINGLE cohesive wide landscape image
+• Each element should be naturally integrated into the horizontal scene
+
 Visual Style:
-• Wide landscape format (16:9)
-• Flat 2D digital illustration
-• Storybook fantasy painterly style
-• Soft brush textures, no photorealism
-• Consistent art style throughout
+• Flat 2D digital illustration with depth through layering
+• Storybook fantasy painterly aesthetic
+• Soft, blended brush textures - no photorealism, no harsh outlines
+• Rich atmospheric effects (mist, light rays, shadows)
+• Professional composition with clear focal points
+• Consistent art style throughout the entire landscape
 
-CRITICAL COMPOSITION RULES:
-• Each element MUST maintain its individual score-based appearance exactly as described
-• A score-1 element stays bleak and deteriorated even next to score-5 elements
-• A score-5 element stays radiant and perfect even next to score-1 elements
-• CREATE CONTRAST - let harsh differences between elements be visible and striking
-• DO NOT blend or homogenize the emotional tones
-• Arrange elements naturally in a landscape but preserve their individual qualities
+CRITICAL EMOTIONAL COMPOSITION RULES:
+• Each element MUST maintain its individual score-based emotional quality exactly as described above
+• A score-1 element stays bleak, withered, and deteriorated even when adjacent to score-5 elements
+• A score-5 element stays radiant, vibrant, and perfect even when adjacent to score-1 elements
+• CREATE STRIKING CONTRAST - the emotional differences between elements should be visible and powerful
+• DO NOT blend or homogenize the emotional tones between different elements
+• DO NOT make everything match in mood or color
+• The lighting, color saturation, and vitality of each element reflects its individual score
+• Elements can share the same space but maintain their distinct emotional qualities
 
-The goal is a surreal, emotionally varied landscape where:
-- Vibrant elements shine brilliantly
-- Deteriorated elements remain dark and withered
-- The viewer can feel the emotional contrast between different parts
-- Each element tells its own story while existing in the same world
+Spatial Arrangement:
+• Arrange elements in a natural, believable landscape composition
+• Use foreground, midground, and background to create depth
+• Consider realistic scale and positioning (sky above, ground below, etc.)
+• Elements should feel like they exist in the same world, even if emotionally contradictory
+• Take advantage of the WIDE horizontal format to spread elements across the scene
 
-Embrace the weirdness and contrast. Make it dreamlike and emotionally complex.
+Atmospheric Storytelling:
+• The landscape should feel surreal and emotionally complex
+• Vibrant elements should genuinely shine and glow with life
+• Deteriorated elements should appear dark, withered, and struggling
+• The viewer should feel the emotional tension and contrast
+• Each element tells its own story within the unified scene
+• The overall effect is dreamlike, haunting, beautiful, and thought-provoking
+
+REMINDER: This MUST be a WIDE HORIZONTAL LANDSCAPE format (16:9), NOT square. Create a masterpiece that embraces emotional complexity and visual contrast while maintaining artistic coherence.
 """
 
     state["final_prompt"] = composite_prompt
@@ -256,21 +262,30 @@ Embrace the weirdness and contrast. Make it dreamlike and emotionally complex.
 
 
 def generate_final_landscape(state: LandscapeState) -> LandscapeState:
-    """Generate the final composite landscape using all reference images"""
+    """Generate the final composite landscape using Gemini's aspect ratio config"""
     print("\n🖼️  Generating final composite landscape...")
+    print("   Using Gemini API with 16:9 aspect ratio configuration")
 
     try:
-        # Prepare contents: prompt + all element images as references
-        contents = [state["final_prompt"]]
+        aspect_ratio = "16:9"  # Options: "1:1","2:3","3:2","3:4","4:3","4:5","5:4","9:16","16:9","21:9"
+        resolution = "2K"  # Options: "1K", "2K", "4K"
 
-        print(f"   Using {len(state['element_images'])} reference images")
-        for img_path in state["element_images"]:
-            img = Image.open(img_path)
-            contents.append(img)
+        print(f"   Aspect ratio: {aspect_ratio}, Resolution: {resolution}")
 
-        response = client.models.generate_content(
-            model="gemini-2.5-flash-image",
-            contents=contents,
+        chat = client.chats.create(
+            model="gemini-3-pro-image-preview",
+            config=types.GenerateContentConfig(
+                response_modalities=["IMAGE"], tools=[{"google_search": {}}]
+            ),
+        )
+
+        response = chat.send_message(
+            [state["final_prompt"]],
+            config=types.GenerateContentConfig(
+                image_config=types.ImageConfig(
+                    aspect_ratio=aspect_ratio, image_size=resolution
+                ),
+            ),
         )
 
         output_path = Path(state["output_dir"]) / "final_composite_landscape.png"
@@ -297,7 +312,7 @@ def finalize(state: LandscapeState) -> LandscapeState:
     else:
         print("\n✨ Landscape generation complete!")
         print(f"📁 Output directory: {state['output_dir']}")
-        print(f"🎨 Generated {len(state['element_images'])} individual elements")
+        print(f"📝 Processed {len(state['element_prompts'])} element descriptions")
         print(f"🖼️  Final landscape: {state['final_image_path']}")
     return state
 
@@ -309,7 +324,7 @@ def create_workflow():
     g = StateGraph(LandscapeState)
 
     g.add_node("initialize", initialize_state)
-    g.add_node("generate_element", generate_element_image)
+    g.add_node("generate_element", generate_element_description)
     g.add_node("increment", increment_index)
     g.add_node("create_composite_prompt", create_composite_prompt)
     g.add_node("generate_final", generate_final_landscape)
@@ -398,7 +413,7 @@ if __name__ == "__main__":
 
         if not result["error"]:
             print(f"\n🎉 Successfully generated composite landscape!")
-            print(f"   Elements: {len(result['element_images'])}")
+            print(f"   Descriptions: {len(result['element_prompts'])}")
             print(f"   Final image: {result['final_image_path']}")
 
     except json.JSONDecodeError:

@@ -1,9 +1,11 @@
 # server.py (or app.py - whichever you're using)
 import os
-from fastapi import FastAPI, Query, HTTPException
+from fastapi import FastAPI, Query, HTTPException, Body
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from main import generate_asset_progression
+from survey_landscape import generate_survey_landscape
+from typing import List, Dict
 
 app = FastAPI()
 
@@ -30,6 +32,7 @@ def root():
 
 @app.get("/generate")
 def generate(thing: str = Query(...)):
+    """Generate progressive asset images (1-5 stages) for a single thing"""
     result = generate_asset_progression(thing)
     if result["error"]:
         raise HTTPException(status_code=500, detail=result["error"])
@@ -38,6 +41,49 @@ def generate(thing: str = Query(...)):
         "image_paths": result["image_paths"],
         "output_dir": result["output_dir"],
         "message": "Generation complete",
+    }
+
+
+@app.post("/generate-landscape")
+def generate_landscape(survey_answers: List[Dict[str, int]] = Body(...)):
+    """
+    Generate a composite landscape from survey answers.
+
+    Expected format:
+    [
+        {"category": "dog", "score": 1},
+        {"category": "sky", "score": 5},
+        {"category": "tree", "score": 3}
+    ]
+    """
+    # Validate input
+    if not survey_answers:
+        raise HTTPException(status_code=400, detail="Survey answers cannot be empty")
+
+    for item in survey_answers:
+        if "category" not in item or "score" not in item:
+            raise HTTPException(
+                status_code=400,
+                detail="Each survey item must have 'category' and 'score'",
+            )
+        if not isinstance(item["score"], int) or not 1 <= item["score"] <= 5:
+            raise HTTPException(
+                status_code=400,
+                detail=f"Score must be an integer between 1-5, got {item['score']}",
+            )
+
+    # Generate the landscape
+    result = generate_survey_landscape(survey_answers)
+
+    if result["error"]:
+        raise HTTPException(status_code=500, detail=result["error"])
+
+    return {
+        "survey_answers": survey_answers,
+        "final_image_path": result["final_image_path"],
+        "output_dir": result["output_dir"],
+        "element_count": len(result["element_prompts"]),
+        "message": "Landscape generation complete",
     }
 
 
