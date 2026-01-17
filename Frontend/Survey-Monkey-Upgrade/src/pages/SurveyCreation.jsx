@@ -240,14 +240,14 @@ export default function CreateSurvey() {
       id: index + 1,
       text: q.text,
       images: getImagePaths(q.category, q.isGenerated),
-      category: q.category
-    })); 
+      category: q.category,
+    }));
 
     localStorage.setItem(
       `survey_${surveyId}`,
       JSON.stringify(formattedQuestions),
     );
-    setSurveyId(surveyId);     
+    setSurveyId(surveyId);
     const link = `${window.location.origin}/newlyCreatedSurvey?id=${surveyId}`;
     setSurveyLink(link);
   };
