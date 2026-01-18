@@ -1,35 +1,36 @@
 import QuestionCard from "../components/QuestionCard.jsx";
 import ImageSelectionCard from "../components/ImageSelectionCard.jsx";
-import Carousel from "../components/Carousel.jsx"
+import Carousel from "../components/Carousel.jsx";
 import { useState } from "react";
 import "../css/Home.css";
 
 // slide init:
-const OPTIONS = { loop: false }
+const OPTIONS = { loop: false };
 const SLIDES = [
   "/images/weather_1.png",
   "/images/weather_2.png",
   "/images/weather_3.png",
   "/images/weather_4.png",
   "/images/weather_5.png",
-]
+];
 
 // Placeholder component for the final landscape visualization
 const FinalLandscapePreview = () => {
   return (
-   <div>
-    <h3 className="text-h3">Final Landscape Preview</h3>
-    <p className="text-p" style={{marginBottom: "1rem"}}>
-          (This is an example of the type of landscape users will create as they complete your form.)
-    </p>
-    <div className="dashed-border">
-      <Carousel slides={SLIDES} options={OPTIONS}/>
+    <div>
+      <h3 className="text-h3">Final Landscape Preview</h3>
+      <p className="text-p" style={{marginBottom: "1rem"}}>
+        (This is an example of the type of landscape users will create as they complete your form.)
+      </p>
+      <div className="dashed-border">
+        <Carousel slides={SLIDES} options={OPTIONS}/>
+      </div>
     </div>
   );
 };
 
 const Home = () => {
-  const [picked, setPicked] = useState(null); // current question selection (not yet saved unless OK/Save)
+  const [picked, setPicked] = useState(null);
   return (
     <div className="container">
       {/* Hero Section */}
