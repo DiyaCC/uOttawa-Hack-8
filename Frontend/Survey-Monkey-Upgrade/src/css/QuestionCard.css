@@ -6,23 +6,27 @@
 .question-card {
   box-sizing: border-box;
 
-  /* ✅ bigger card */
-  width: min(58rem, 70%);
+  /* ✅ Responsive card width - tighter horizontally */
+  width: min(46rem, 85%);
+  max-width: 100%;
   margin: 0;
 
   /* ✅ fills the stage height now */
   height: 100%;
-  max-height: none;
+  max-height: 100%;
 
   display: flex;
   flex-direction: column;
-  gap: 1.15rem;
+  gap: clamp(0.9rem, 1.7vw, 1.3rem);
 
-  /* ✅ more breathing room = feels larger */
-  padding: 1.75rem 2rem;
-  border-radius: 1.8rem;
+  /* ✅ Balanced padding for visual harmony - tighter horizontally */
+  padding: clamp(1rem, 1.8vw, 1.4rem) clamp(0.65rem, 1.2vw, 0.9rem);
+  border-radius: 1.5rem;
 
-  background: rgba(255, 255, 250, 0.88);
+  background: rgba(255, 255, 250, 0.92);
+  box-shadow:
+    0 0.3rem 0.8rem rgba(0, 0, 0, 0.05),
+    0 0.1rem 0.3rem rgba(0, 0, 0, 0.03);
 }
 
 .question-card * {
@@ -33,27 +37,29 @@
 .avatar-card {
   width: 100%;
   margin: 0;
-  padding: 1.1rem 1.4rem;
-  border-radius: 1.25rem;
+  padding: clamp(0.85rem, 1.5vw, 1.1rem) clamp(1rem, 2vw, 1.4rem);
+  border-radius: 1.1rem;
 
   display: flex;
   justify-content: center;
   align-items: center;
 
-  background: rgba(255, 255, 255, 0.92);
+  background: rgba(255, 255, 255, 0.95);
   box-shadow:
-    0 0.7rem 1.3rem rgba(0, 0, 0, 0.07),
-    inset 0 0 0.08rem rgba(0, 0, 0, 0.08);
+    0 0.4rem 0.8rem rgba(0, 0, 0, 0.06),
+    inset 0 0.05rem 0.1rem rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.04);
 }
 
 .avatar-card p {
   margin: 0;
   padding: 0;
 
-  font-size: 1.15rem;
-  color: rgba(30, 30, 34, 0.92);
-  font-weight: 750;
+  font-size: clamp(0.95rem, 2.2vw, 1.15rem);
+  color: rgba(25, 25, 30, 0.95);
+  font-weight: 600;
   text-align: center;
+  line-height: 1.5;
 
   max-width: 44ch;
 }
@@ -66,8 +72,34 @@
 
   flex: 1;
   min-height: 0;
+  max-height: 100%;
 
   display: flex;
-  justify-content: center;
+  justify-content: stretch;
   align-items: stretch;
+  align-self: stretch;
+}
+
+/* Responsive adjustments */
+@media (max-width: 48rem) {
+  .question-card {
+    width: 100%;
+    padding: clamp(0.75rem, 1.5vw, 1.1rem);
+    gap: clamp(0.6rem, 1.2vw, 0.9rem);
+  }
+
+  .avatar-card {
+    padding: clamp(0.7rem, 1.3vw, 1rem) clamp(0.85rem, 1.8vw, 1.2rem);
+  }
+}
+
+@media (max-width: 34rem) {
+  .question-card {
+    padding: clamp(0.6rem, 1.2vw, 0.9rem);
+    gap: clamp(0.5rem, 1vw, 0.75rem);
+  }
+
+  .avatar-card p {
+    font-size: clamp(0.9rem, 2vw, 1rem);
+  }
 }

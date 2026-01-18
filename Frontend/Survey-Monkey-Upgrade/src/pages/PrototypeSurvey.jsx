@@ -19,90 +19,25 @@ const SURVEY_QUESTIONS = [
     id: 2,
     text: "How likely are you to recommend us?",
     images: [
-      "/images/tree_1.png",
-      "/images/tree_2.png",
-      "/images/tree_3.png",
-      "/images/tree_4.png",
-      "/images/tree_5.png",
+      "/images/charriot_1.png",
+      "/images/charriot_2.png",
+      "/images/charriot_3.png",
+      "/images/charriot_4.png",
+      "/images/charriot_5.png",
     ],
   },
   {
     id: 3,
     text: "How was the speed of service?",
     images: [
-      "/images/Tree1.png",
-      "/images/Tree2.png",
-      "/images/Tree3.png",
-      "/images/Tree4.png",
-      "/images/Tree5.png",
+      "/images/house_1.png",
+      "/images/house_2.png",
+      "/images/house_3.png",
+      "/images/house_4.png",
+      "/images/house_5.png",
     ],
   },
-  {
-    id: 4,
-    text: "How was your overall experience?",
-    images: [
-      "/images/Tree1.png",
-      "/images/Tree2.png",
-      "/images/Tree3.png",
-      "/images/Tree4.png",
-      "/images/Tree5.png",
-    ],
-  },
-  {
-    id: 5,
-    text: "How likely are you to recommend us?",
-    images: [
-      "/images/Tree1.png",
-      "/images/Tree2.png",
-      "/images/Tree3.png",
-      "/images/Tree4.png",
-      "/images/Tree5.png",
-    ],
-  },
-  {
-    id: 6,
-    text: "How was the speed of service?",
-    images: [
-      "/images/Tree1.png",
-      "/images/Tree2.png",
-      "/images/Tree3.png",
-      "/images/Tree4.png",
-      "/images/Tree5.png",
-    ],
-  },
-  {
-    id: 7,
-    text: "How was your overall experience?",
-    images: [
-      "/images/Tree1.png",
-      "/images/Tree2.png",
-      "/images/Tree3.png",
-      "/images/Tree4.png",
-      "/images/Tree5.png",
-    ],
-  },
-  {
-    id: 8,
-    text: "How likely are you to recommend us?",
-    images: [
-      "/images/Tree1.png",
-      "/images/Tree2.png",
-      "/images/Tree3.png",
-      "/images/Tree4.png",
-      "/images/Tree5.png",
-    ],
-  },
-  {
-    id: 9,
-    text: "How was the speed of service?",
-    images: [
-      "/images/Tree1.png",
-      "/images/Tree2.png",
-      "/images/Tree3.png",
-      "/images/Tree4.png",
-      "/images/Tree5.png",
-    ],
-  },
+  
 ];
 
 const ANIM_MS = 720;
@@ -116,19 +51,79 @@ export default function Home() {
   const [dir, setDir] = useState("next"); // next | prev
 
   const [saved, setSaved] = useState(() => Array(total).fill(null));
-  const [picked, setPicked] = useState(null); // current question selection (not yet saved unless OK/Save)
+  const [picked, setPicked] = useState(null);
+
+  const [hasAcknowledged, setHasAcknowledged] = useState(false);
 
   const q = SURVEY_QUESTIONS[idx];
+
+  const puns = [
+    "Leaf it to me—I had a treemendous time!",
+    "I'd wheel-y suggest it!",
+    "Did our service hit home fast, or did it drag its feet at the door?",
+    "I had a chimp-ly amazing time!",
+    "I'd say we're an a-mirage-ing choice you can't desert!",
+    "The service was so fast, it left me blown away!",
+    "I had a howl of a time!",
+    "I'd say I'm lawn-ing toward giving a glowing recommendation!",
+    "Our service was sharp, but in a good way—prickly quick!",
+  ]
+
+  const aiText = puns[idx] || "";
+
+/*
+  const [puns, setPuns] = useState(Array(SURVEY_QUESTIONS.length).fill(""));
+
+  const aiText = puns[idx] || "";
+
+  useEffect(() => {
+  async function fetchAllPuns() {
+    try {
+      const punPromises = SURVEY_QUESTIONS.map((q) => {
+        const theme = q.images[0].split("/").pop().split("_")[0];
+        return fetch("http://localhost:8000/generate-pun", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ question: q.text, theme }),
+        })
+          .then((res) => res.json())
+          .then((data) => data.pun)
+          .catch((err) => {
+            console.error("Failed to generate pun for question", q.id, err);
+            return ""; // fallback
+          });
+      });
+
+      const results = await Promise.all(punPromises);
+      setPuns(results);
+    } catch (err) {
+      console.error("Failed to fetch puns:", err);
+    }
+  }
+
+  fetchAllPuns();
+}, []);
+*/
 
   useEffect(() => {
     setPicked(saved[idx] ?? null);
   }, [idx, saved]);
 
+  // ✅ Lock page scroll while modal is open
+  useEffect(() => {
+    if (!hasAcknowledged) {
+      const prevOverflow = document.body.style.overflow;
+      document.body.style.overflow = "hidden";
+      return () => {
+        document.body.style.overflow = prevOverflow;
+      };
+    }
+  }, [hasAcknowledged]);
+
   const busy = phase !== "idle";
   const canPrev = idx > 0 && !busy;
   const canNext = !busy && Boolean(picked);
 
-  //const progress = useMemo(() => `Question ${idx + 1} of ${total}`, [idx, total]);
   const answered = useMemo(() => saved.filter(Boolean).length, [saved]);
 
   const commit = () => {
@@ -155,7 +150,7 @@ export default function Home() {
   const onNext = () => {
     if (!canNext) return;
     commit();
-    if (idx === last) return; // Save on last question
+    if (idx === last) return;
     go(idx + 1, "next");
   };
 
@@ -173,97 +168,138 @@ export default function Home() {
   };
 
   return (
-    <div className="homePage">
-      <div className="survey-title-header">
-        <h1 className="survey-title">Prototype Survey</h1>
-      </div>
-      <div className="homeLayout">
-        {/* LEFT: Question stage + buttons (buttons are NOT part of stage height) */}
-        <section className="surveyArea">
-          <div className="stageViewport" aria-live="polite">
-            <div className={`stageMotion ${phase} ${dir}`}>
-              <QuestionCard
-                key={q.id}
-                question={q.text}
-                imageSelectionCard={
-                  <ImageSelectionCard
-                    img1={q.images[0]}
-                    img2={q.images[1]}
-                    img3={q.images[2]}
-                    img4={q.images[3]}
-                    img5={q.images[4]}
-                    value={picked}
-                    onSelectionChange={setPicked}
-                  />
-                }
-              />
+    <div className={`homePage ${!hasAcknowledged ? "is-locked" : ""}`}>
+     
+      {!hasAcknowledged && (
+        <div
+          className="gateOverlay"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="gateTitle"
+        >
+          <div className="gateModal">
+            <div className="gateBadge">Before you start</div>
+
+            <h2 id="gateTitle" className="gateTitle">
+             Welcome to a survey in the BananaVerse!🍌 
+            </h2>
+
+            <p className="gateText">
+              Give us a PICTURE of your experience by choosing elements that shape your very own AI-generated BananaScape Landscape.
+            </p>
+
+            <ul className="gateList">
+              <li>Pick the image the feels right per question</li>
+              <li>Go back and change your landscape elements</li>
+              <li>Your “Landscape Shelf” fills as you go</li>
+            </ul>
+
+            <div className="gateActions">
+              <button
+                className="btn primary gateBtn"
+                type="button"
+                onClick={() => setHasAcknowledged(true)}
+                autoFocus
+              >
+                I understand
+              </button>
             </div>
           </div>
+        </div>
+      )}
 
-          <div className="actions">
-            <div className="actionsRow">
-              <button className="btn secondary" type="button" onClick={onClear}>
-                Clear Form
-              </button>
+      <div className="pageContent">
+        <div className="survey-title-header" style={{margin:"0rem"}}>
+          <h1 className="survey-title" style={{margin:"0rem"}}>Prototype Survey</h1>
+          <p>{aiText}</p>
+        </div>
 
-              <div className="navGroup">
-                <button
-                  className="btn secondary"
-                  type="button"
-                  onClick={onPrev}
-                  disabled={!canPrev}
-                >
-                  Previous
-                </button>
-
-                <button
-                  className="btn primary"
-                  type="button"
-                  onClick={onNext}
-                  disabled={!canNext}
-                  title={!picked ? "Pick an image first" : ""}
-                >
-                  {idx === last ? "Save" : "OK"}
-                </button>
+        <div className="homeLayout">
+          <section className="surveyArea">
+            <div className="stageViewport" aria-live="polite">
+              <div className={`stageMotion ${phase} ${dir}`}>
+                <QuestionCard
+                  key={q.id}
+                  question={q.text}
+                  imageSelectionCard={
+                    <ImageSelectionCard
+                      img1={q.images[0]}
+                      img2={q.images[1]}
+                      img3={q.images[2]}
+                      img4={q.images[3]}
+                      img5={q.images[4]}
+                      value={picked}
+                      onSelectionChange={setPicked}
+                    />
+                  }
+                />
               </div>
             </div>
-          </div>
-        </section>
 
-        {/* RIGHT: Shelf equals stage height and aligns horizontally */}
-        <aside className="shelfPanel" aria-label="Selections shelf">
-          <header className="shelfHeader">
-            <div className="shelfTitle">Landscape Shelf</div>
-            <div className="shelfMeta">
-              Saved: <b>{answered}</b> / {total}
+            <div className="actions">
+              <div className="actionsRow">
+                <button className="btn secondary" type="button" onClick={onClear}>
+                  Clear Form
+                </button>
+
+                <div className="navGroup">
+                  <button
+                    className="btn secondary"
+                    type="button"
+                    onClick={onPrev}
+                    disabled={!canPrev}
+                  >
+                    Previous
+                  </button>
+
+                  <button
+                    className="btn primary"
+                    type="button"
+                    onClick={onNext}
+                    disabled={!canNext}
+                    title={!picked ? "Pick an image first" : ""}
+                  >
+                    {idx === last ? "Save" : "OK"}
+                  </button>
+                </div>
+              </div>
             </div>
-          </header>
+          </section>
 
-          <div className="shelfGrid" role="list">
-            {saved.map((src, i) => (
-              <div
-                key={i}
-                className={`shelfItem ${src ? "has" : ""}`}
-                role="listitem"
-              >
-                <div className="shelfItemTop">
-                  <div className="shelfQ">Q{i + 1}</div>
-                  <div className={`shelfStatus ${src ? "done" : ""}`}>
-                    {src ? "Selected" : "Empty"}
+          <aside className="shelfPanel" aria-label="Selections shelf">
+            <header className="shelfHeader">
+              <div className="shelfTitle">Landscape Shelf</div>
+              <div className="shelfMeta">
+                Saved: <b>{answered}</b> / {total}
+              </div>
+            </header>
+
+            <div className="shelfGrid" role="list">
+              {saved.map((src, i) => (
+                <div
+                  key={i}
+                  className={`shelfItem ${src ? "has" : ""}`}
+                  role="listitem"
+                >
+                  <div className="shelfItemTop">
+                    <div className="shelfQ">Q{i + 1}</div>
+                    <div className={`shelfStatus ${src ? "done" : ""}`}>
+                      {src ? "Selected" : "Empty"}
+                    </div>
+                  </div>
+
+                  <div className="shelfThumb">
+                    {src ? (
+                      <img src={src} alt={`Selection for question ${i + 1}`} />
+                    ) : (
+                      <div className="shelfThumbEmpty">—</div>
+                    )}
                   </div>
                 </div>
-
-                <div className="shelfThumb">
-                  {src ? (
-                    <img src={src} alt={`Selection for question ${i + 1}`} />
-                  ) : (
-                    <div className="shelfThumbEmpty">—</div>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-        </aside>
+              ))}
+            </div>
+          </aside>
+        </div>
       </div>
     </div>
   );
