@@ -56,18 +56,19 @@
 }
 .homeLayout {
   max-width: var(--max-width);
-  margin: 0 auto;
+  padding: 0 100px;
   display: grid;
   grid-template-columns: minmax(0, 1fr) var(--shelf-w);
   gap: var(--gap);
   align-items: start;
+  justify-content: space-between;
   flex: 1;
   min-height: 0;
   width: 100%;
 }
 /* LEFT */
 .surveyArea {
-  width: 100%;
+  width: 46vw;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -289,13 +290,14 @@
 }
 .shelfThumb {
   border-radius: 0.9rem;
+
   overflow: hidden;
   border: 1px solid rgba(20, 20, 24, 0.1);
   background: rgba(0, 0, 0, 0.06);
 }
 .shelfThumb img {
   width: 100%;
-  height: clamp(3rem, 5vh, 3.8rem);
+  height: 7rem;
   object-fit: cover;
   display: block;
 }
@@ -324,6 +326,8 @@
 .survey-title {
   font-size: clamp(1.1rem, 2.5vw, 1.8rem);
   margin: 0;
+  font-weight: 200;
+  color: #262626;
   padding: 0 0 0 clamp(0.5rem, 1.2vw, 0.9rem);
   text-align: left;
   width: 100%;
@@ -1004,4 +1008,3 @@
 }
 
 /* ===== EXISTING STYLES ===== */
-
