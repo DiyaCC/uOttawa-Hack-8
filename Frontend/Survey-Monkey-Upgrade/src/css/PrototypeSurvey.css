@@ -15,7 +15,7 @@
   --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
   --dist: 3.25rem;
   /* ✅ Card height with more vertical space */
-  --card-height: clamp(26rem, calc(100vh - 11rem), 36rem);
+  --card-height: 65vh;
   --max-width: 85rem;
   --gap: clamp(1rem, 2vw, 2rem);
   --shelf-w: 22rem;
@@ -72,7 +72,7 @@
   flex-direction: column;
   align-items: center;
   flex: 1;
-  min-height: 0;
+  min-height: 0px;
 }
 /* ✅ Stage viewport is the "window" */
 .stageViewport {
@@ -366,7 +366,8 @@
     --gap: 1rem;
   }
   .pageContent {
-    padding: clamp(6rem, 8vh, 6.5rem) clamp(0.6rem, 1.5vw, 1rem) clamp(0.6rem, 1.2vw, 1rem);
+    padding: clamp(6rem, 8vh, 6.5rem) clamp(0.6rem, 1.5vw, 1rem)
+      clamp(0.6rem, 1.2vw, 1rem);
   }
   .shelfGrid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -569,13 +570,16 @@
    ========================= */
 
 .pageContent {
-  transition: filter 200ms ease, transform 200ms ease;
+  transition:
+    filter 200ms ease,
+    transform 200ms ease;
   width: 100%;
   flex: 1;
   min-height: 0;
   display: flex;
   flex-direction: column;
-  padding: clamp(6.5rem, 9vh, 8rem) clamp(0.75rem, 1.5vw, 1.5rem) clamp(0.75rem, 1.5vw, 1.25rem);
+  padding: clamp(6.5rem, 9vh, 8rem) clamp(0.75rem, 1.5vw, 1.5rem)
+    clamp(0.75rem, 1.5vw, 1.25rem);
   box-sizing: border-box;
   overflow-y: auto;
   overflow-x: hidden;
@@ -622,7 +626,7 @@
 
 /* Gradient whoosh animation */
 .gateModal::before {
-  content: '';
+  content: "";
   position: absolute;
   top: -100%;
   left: 0;
@@ -860,13 +864,16 @@
    ========================= */
 
 .pageContent {
-  transition: filter 200ms ease, transform 200ms ease;
+  transition:
+    filter 200ms ease,
+    transform 200ms ease;
   width: 100%;
   flex: 1;
   min-height: 0;
   display: flex;
   flex-direction: column;
-  padding: clamp(6.5rem, 9vh, 8rem) clamp(0.75rem, 1.5vw, 1.5rem) clamp(0.75rem, 1.5vw, 1.25rem);
+  padding: clamp(6.5rem, 9vh, 8rem) clamp(0.75rem, 1.5vw, 1.5rem)
+    clamp(0.75rem, 1.5vw, 1.25rem);
   box-sizing: border-box;
   overflow-y: auto;
   overflow-x: hidden;
@@ -913,7 +920,7 @@
 
 /* Gradient whoosh animation - runs once */
 .gateModal::before {
-  content: '';
+  content: "";
   position: absolute;
   top: -100%;
   left: 0;
@@ -997,3 +1004,4 @@
 }
 
 /* ===== EXISTING STYLES ===== */
+

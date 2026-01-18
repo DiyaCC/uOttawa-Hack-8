@@ -24,7 +24,7 @@
   border-radius: 1.5rem;
 
   background: rgba(255, 255, 250, 0.92);
-  box-shadow: 
+  box-shadow:
     0 0.3rem 0.8rem rgba(0, 0, 0, 0.05),
     0 0.1rem 0.3rem rgba(0, 0, 0, 0.03);
 }
@@ -87,7 +87,7 @@
     padding: clamp(0.75rem, 1.5vw, 1.1rem);
     gap: clamp(0.6rem, 1.2vw, 0.9rem);
   }
-  
+
   .avatar-card {
     padding: clamp(0.7rem, 1.3vw, 1rem) clamp(0.85rem, 1.8vw, 1.2rem);
   }
@@ -98,7 +98,7 @@
     padding: clamp(0.6rem, 1.2vw, 0.9rem);
     gap: clamp(0.5rem, 1vw, 0.75rem);
   }
-  
+
   .avatar-card p {
     font-size: clamp(0.9rem, 2vw, 1rem);
   }
