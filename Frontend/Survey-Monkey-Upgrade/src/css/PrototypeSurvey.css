@@ -356,6 +356,8 @@
   margin-right: auto;
   width: 100%;
   box-sizing: border-box;
+  align-items: baseline;
+  gap: clamp(10rem, 1vw, 1rem); /* horizontal spacing between h1 and p */
 }
 
 .survey-title {
@@ -365,7 +367,7 @@
   color: #262626;
   padding: 0 0 0 clamp(0.5rem, 1.2vw, 0.9rem);
   text-align: left;
-  width: 100%;
+  width: auto;
   line-height: 1.2;
 }
 /* Responsive */

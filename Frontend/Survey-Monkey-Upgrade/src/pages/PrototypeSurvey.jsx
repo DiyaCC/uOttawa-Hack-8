@@ -123,6 +123,21 @@ export default function Home() {
 
   const q = SURVEY_QUESTIONS[idx];
 
+  const puns = [
+    "Leaf it to me—I had a treemendous time!",
+    "I'd wheel-y suggest it!",
+    "Did our service hit home fast, or did it drag its feet at the door?",
+    "I had a chimp-ly amazing time!",
+    "I'd say we're an a-mirage-ing choice you can't desert!",
+    "The service was so fast, it left me blown away!",
+    "I had a howl of a time!",
+    "I'd say I'm lawn-ing toward giving a glowing recommendation!",
+    "Our service was sharp, but in a good way—prickly quick!",
+  ]
+
+  const aiText = puns[idx] || "";
+
+/*
   const [puns, setPuns] = useState(Array(SURVEY_QUESTIONS.length).fill(""));
 
   const aiText = puns[idx] || "";
@@ -154,7 +169,7 @@ export default function Home() {
 
   fetchAllPuns();
 }, []);
-
+*/
 
   useEffect(() => {
     setPicked(saved[idx] ?? null);
@@ -260,8 +275,9 @@ export default function Home() {
       )}
 
       <div className="pageContent">
-        <div className="survey-title-header">
-          <h1 className="survey-title">Prototype Survey</h1>
+        <div className="survey-title-header" style={{margin:"0rem"}}>
+          <h1 className="survey-title" style={{margin:"0rem"}}>Prototype Survey</h1>
+          <p>{aiText}</p>
         </div>
 
         <div className="homeLayout">
@@ -351,13 +367,6 @@ export default function Home() {
           </aside>
         </div>
       </div>
-      
-      <aside className="aiPanel" aria-label="AI helper">
-        <div className="aiCharacter">
-          <img src="/images/ai_bot.png" alt="AI assistant" />
-          <div className="aiBubble">{aiText}</div>
-        </div>
-      </aside>
     </div>
   );
 }
