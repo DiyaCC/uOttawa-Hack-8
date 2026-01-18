@@ -14,22 +14,23 @@
   --anim: 720ms;
   --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
   --dist: 3.25rem;
-  /* ✅ BIGGER stage = bigger inner card - INCREASED HEIGHT */
-  --card-height: clamp(34rem, 62vh, 46rem);
-  --max-width: 85rem; /* ✅ Increased to give more room for gap */
-  --gap: 3rem; /* ✅ Increased from 2.5rem for more space between stage and shelf */
+  /* ✅ Card height with more vertical space */
+  --card-height: clamp(26rem, calc(100vh - 11rem), 36rem);
+  --max-width: 85rem;
+  --gap: clamp(1rem, 2vw, 2rem);
   --shelf-w: 22rem;
-  --stage-w: 58rem; /* ✅ wider stage */
+  --stage-w: 46rem; /* ✅ tighter stage */
 }
 /* Page */
 .homePage {
   position: relative;
-  min-height: 100vh;
   height: 100vh;
   margin: 0;
-  padding: 6rem;
+  padding: 0;
   box-sizing: border-box;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
   background: linear-gradient(
     135deg,
     rgba(255, 20, 147, 0.28) 0%,
@@ -60,6 +61,9 @@
   grid-template-columns: minmax(0, 1fr) var(--shelf-w);
   gap: var(--gap);
   align-items: start;
+  flex: 1;
+  min-height: 0;
+  width: 100%;
 }
 /* LEFT */
 .surveyArea {
@@ -67,16 +71,18 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  flex: 1;
+  min-height: 0;
 }
 /* ✅ Stage viewport is the "window" */
 .stageViewport {
   height: var(--card-height);
   width: min(var(--stage-w), 100%);
   display: flex;
-  align-items: stretch; /* ✅ allow child to fill height */
+  align-items: stretch;
   justify-content: center;
   overflow: hidden;
-  border-radius: 2rem;
+  border-radius: 1.5rem;
 }
 /* ✅ The animated wrapper (your slide in/out) */
 .stageMotion {
@@ -172,10 +178,10 @@
 /* Actions */
 .actions {
   width: min(var(--stage-w), 100%);
-  margin-top: 1rem;
+  margin-top: clamp(0.3rem, 0.8vw, 0.5rem);
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 0.5rem;
 }
 .actionsRow {
   width: 100%;
@@ -192,9 +198,9 @@
 /* Buttons */
 .btn {
   border: none;
-  border-radius: 0.9rem;
-  padding: 0.85rem 1.1rem;
-  font-size: 1rem;
+  border-radius: 0.75rem;
+  padding: clamp(0.6rem, 1.2vw, 0.75rem) clamp(0.85rem, 1.5vw, 1rem);
+  font-size: clamp(0.85rem, 1.5vw, 0.95rem);
   cursor: pointer;
   transition:
     transform 160ms ease,
@@ -223,29 +229,28 @@
 .shelfPanel {
   height: var(--card-height);
   width: 100%;
-  border-radius: 1.2rem;
-  padding: 1rem;
+  border-radius: 1rem;
+  padding: clamp(0.6rem, 1.2vw, 0.85rem);
   background: rgba(255, 255, 255, 0.78);
   border: 1px solid rgba(20, 20, 24, 0.12);
   backdrop-filter: blur(10px);
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  /* ✅ Removed margin-left: 10rem for better horizontal spacing */
 }
 .shelfHeader {
-  padding-bottom: 0.75rem;
+  padding-bottom: 0.5rem;
   border-bottom: 1px solid rgba(20, 20, 24, 0.1);
-  margin-bottom: 0.9rem;
+  margin-bottom: 0.6rem;
 }
 .shelfTitle {
-  font-size: 1.05rem;
+  font-size: clamp(0.85rem, 1.5vw, 0.95rem);
   font-weight: 700;
   color: rgba(20, 20, 24, 0.92);
 }
 .shelfMeta {
-  margin-top: 0.25rem;
-  font-size: 0.9rem;
+  margin-top: 0.2rem;
+  font-size: clamp(0.75rem, 1.2vw, 0.85rem);
   color: rgba(20, 20, 24, 0.62);
 }
 .shelfGrid {
@@ -254,14 +259,14 @@
   overflow-y: auto;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.75rem;
-  padding-right: 0.25rem;
+  gap: clamp(0.5rem, 1vw, 0.65rem);
+  padding-right: 0.2rem;
 }
 .shelfItem {
-  border-radius: 1rem;
+  border-radius: 0.75rem;
   border: 1px solid rgba(20, 20, 24, 0.12);
   background: rgba(255, 255, 255, 0.65);
-  padding: 0.65rem;
+  padding: clamp(0.4rem, 0.8vw, 0.55rem);
 }
 .shelfItemTop {
   display: flex;
@@ -271,12 +276,12 @@
   margin-bottom: 0.5rem;
 }
 .shelfQ {
-  font-size: 0.85rem;
+  font-size: clamp(0.7rem, 1.2vw, 0.8rem);
   font-weight: 700;
   color: rgba(20, 20, 24, 0.85);
 }
 .shelfStatus {
-  font-size: 0.78rem;
+  font-size: clamp(0.65rem, 1vw, 0.75rem);
   color: rgba(20, 20, 24, 0.55);
 }
 .shelfStatus.done {
@@ -290,53 +295,104 @@
 }
 .shelfThumb img {
   width: 100%;
-  height: 4.6rem;
+  height: clamp(3rem, 5vh, 3.8rem);
   object-fit: cover;
   display: block;
 }
 
 .shelfThumbEmpty {
-  height: 4.6rem;
+  height: clamp(3rem, 5vh, 3.8rem);
   display: grid;
   place-items: center;
   color: rgba(20, 20, 24, 0.45);
+  font-size: 0.7rem;
 }
 .survey-title-header {
   display: flex;
   font-family: "Poppins", sans-serif;
   font-weight: 600;
+  margin-bottom: clamp(0.5rem, 1.2vw, 0.75rem);
+  padding: 0 0 clamp(0.75rem, 1.5vw, 1.1rem) 0;
+  flex-shrink: 0;
+  max-width: var(--max-width);
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.survey-title {
+  font-size: clamp(1.1rem, 2.5vw, 1.8rem);
+  margin: 0;
+  padding: 0 0 0 clamp(0.5rem, 1.2vw, 0.9rem);
+  text-align: left;
+  width: 100%;
+  line-height: 1.2;
 }
 /* Responsive */
 @media (max-width: 78rem) {
   :root {
     --shelf-w: 20rem;
-    --stage-w: 56rem;
+    --stage-w: 44rem;
   }
 }
+
+/* Tablet and small laptop */
 @media (max-width: 62rem) {
+  :root {
+    --card-height: clamp(22rem, calc(100vh - 9.5rem), 30rem);
+    --gap: 1.5rem;
+  }
   .homeLayout {
     grid-template-columns: 1fr;
   }
   .shelfPanel {
     height: auto;
+    max-height: 30rem;
     overflow: visible;
   }
   .shelfGrid {
-    overflow: visible;
+    overflow-y: auto;
+    max-height: 25rem;
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
-@media (max-width: 42rem) {
-  .homePage {
-    padding: 1.25rem;
+
+/* Medium mobile */
+@media (max-width: 48rem) {
+  :root {
+    --card-height: clamp(20rem, calc(100vh - 9.5rem), 28rem);
+    --stage-w: 100%;
+    --gap: 1rem;
+  }
+  .pageContent {
+    padding: clamp(6rem, 8vh, 6.5rem) clamp(0.6rem, 1.5vw, 1rem) clamp(0.6rem, 1.2vw, 1rem);
   }
   .shelfGrid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
+
+/* Small mobile */
+@media (max-width: 42rem) {
+  :root {
+    --card-height: clamp(18rem, calc(100vh - 9rem), 26rem);
+  }
+  .pageContent {
+    padding: clamp(5.5rem, 7.5vh, 6rem) 0.75rem 0.6rem;
+  }
+  .shelfGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* Very small mobile */
 @media (max-width: 34rem) {
   :root {
-    --card-height: clamp(36rem, 75vh, 50rem);
+    --card-height: clamp(16rem, calc(100vh - 8rem), 22rem);
+  }
+  .pageContent {
+    padding: clamp(5rem, 7vh, 5.5rem) 0.5rem 0.6rem;
   }
   .shelfGrid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -347,6 +403,10 @@
   }
   .navGroup {
     justify-content: center;
+    width: 100%;
+  }
+  .navGroup .btn {
+    flex: 1;
   }
 }
 
@@ -510,6 +570,15 @@
 
 .pageContent {
   transition: filter 200ms ease, transform 200ms ease;
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  padding: clamp(6.5rem, 9vh, 8rem) clamp(0.75rem, 1.5vw, 1.5rem) clamp(0.75rem, 1.5vw, 1.25rem);
+  box-sizing: border-box;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .homePage.is-locked .pageContent {
@@ -792,6 +861,15 @@
 
 .pageContent {
   transition: filter 200ms ease, transform 200ms ease;
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  padding: clamp(6.5rem, 9vh, 8rem) clamp(0.75rem, 1.5vw, 1.5rem) clamp(0.75rem, 1.5vw, 1.25rem);
+  box-sizing: border-box;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .homePage.is-locked .pageContent {
