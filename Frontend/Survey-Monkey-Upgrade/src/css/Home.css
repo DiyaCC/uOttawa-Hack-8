@@ -73,24 +73,14 @@ section.text-center .QuestionCard {
 }
 
 /* New dashed border applied to the wrapper */
-.dashed-border {
-  display: block; /* shrink to fit image */
-  border: 4px dashed #fbbf24; /* yellow-400 */
-  border-radius: 1rem;
-  padding: 4px; /* optional: small padding around image */
-  background-color: #fde68a; /* optional: highlight background */
-  max-width: 70%;
-  margin: 0 auto;
+
+.dashed-border{
+  overflow: visible;
+  margin: 0;
+  width: 100%;
+  border-radius: 20%;
 }
 
-/* Image inside wrapper */
-.dashed-border img {
-  display: block;
-  max-width: 100%;
-  height: auto;
-  border-radius: 0.5rem;
-  object-fit: contain;
-}
 
 /* Call to Action */
 section.text-center {

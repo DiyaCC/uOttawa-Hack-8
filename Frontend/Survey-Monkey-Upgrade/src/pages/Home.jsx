@@ -1,7 +1,18 @@
 import QuestionCard from "../components/QuestionCard.jsx";
 import ImageSelectionCard from "../components/ImageSelectionCard.jsx";
+import Carousel from "../components/Carousel.jsx"
 import { useState } from "react";
 import "../css/Home.css";
+
+// slide init:
+const OPTIONS = { loop: false }
+const SLIDES = [
+  "/images/weather_1.png",
+  "/images/weather_2.png",
+  "/images/weather_3.png",
+  "/images/weather_4.png",
+  "/images/weather_5.png",
+]
 
 // Placeholder component for the final landscape visualization
 const FinalLandscapePreview = () => {
@@ -12,7 +23,7 @@ const FinalLandscapePreview = () => {
           (This is an example of the type of landscape users will create as they complete your form.)
     </p>
     <div className="dashed-border">
-        <img style={{animation: "slideUpFade 1s ease-out forwards"}} src="/images/generated-image.png" alt="User Landscape" />
+      <Carousel slides={SLIDES} options={OPTIONS}/>
     </div>
    </div>
   );
@@ -45,7 +56,7 @@ const Home = () => {
           <li style={{ opacity: 0.7}}>
             <h3>AI Insights*</h3>
             <p>Behind the scenes, AI analyzes user choices to understand sentiment and trends without slowing down engagement.</p>
-            <p>COMMING SOON</p>
+            <p>COMING SOON</p>
           </li>
         </ul>
       </section>
