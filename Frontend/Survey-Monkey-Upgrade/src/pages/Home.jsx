@@ -53,7 +53,7 @@ const Home = () => {
       {/* Example Question Section */}
       <section>
         <h2 className="text-h2" style={{margin: "0rem"}}>See BananaVerse in Action</h2>
-        <p className="text-p" style={{margin: "0rem"}}>Here's an example question users might see:</p>
+        <p className="text-p" style={{marginTop: "0rem", marginBottom: "0.5rem"}}>Here's an example question users might see:</p>
         <div style={{animation: "slideUpFade 1s ease-out forwards",  display: "flex", justifyContent: "center"}}>
           <QuestionCard
             question="How would you describe overall experience?"

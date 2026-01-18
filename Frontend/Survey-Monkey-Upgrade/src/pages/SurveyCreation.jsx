@@ -671,8 +671,8 @@ export default function CreateSurvey() {
 
       <div className="create-survey-page">
         <div className="page-header">
-          <h1 className="page-title">Create Survey</h1>
-          <p className="page-subtitle">
+          <h1 className="page-title" style={{marginTop: "0rem"}}>Create Survey</h1>
+          <p className="page-subtitle" style={{margin: "0rem"}}>
             Build your custom survey with themed questions
           </p>
         </div>
